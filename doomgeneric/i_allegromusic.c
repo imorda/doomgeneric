@@ -245,7 +245,7 @@ static void *I_Allegro_RegisterSong(void *data, int len)
 	// Remove the temporary MIDI file;
 	remove(filename);
 
-	free(filename);
+	doom_free(filename);
 
 	return music;
 }

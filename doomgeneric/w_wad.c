@@ -118,7 +118,7 @@ static void ExtendLumpInfo(int newnumlumps)
     }
 
     // All done.
-    free(lumpinfo);
+    doom_free(lumpinfo);
     lumpinfo = newlumpinfo;
     numlumps = newnumlumps;
 }

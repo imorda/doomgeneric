@@ -145,7 +145,7 @@ static void FreeAllocatedSound(allocated_sound_t *snd)
 
     allocated_sounds_size -= snd->chunk.alen;
 
-    free(snd);
+    doom_free(snd);
 }
 
 // Search from the tail backwards along the allocated sounds list, find
@@ -214,7 +214,7 @@ static Mix_Chunk *AllocateSound(sfxinfo_t *sfxinfo, size_t len)
 
     do
     {
-        snd = malloc(sizeof(allocated_sound_t) + len);
+        snd = doom_malloc(sizeof(allocated_sound_t) + len);
 
         // Out of memory?  Try to free an old sound, then loop round
         // and try again.
@@ -347,12 +347,12 @@ static boolean ExpandSoundData_SRC(sfxinfo_t *sfxinfo,
     Mix_Chunk *chunk;
 
     src_data.input_frames = length;
-    src_data.data_in = malloc(length * sizeof(float));
+    src_data.data_in = doom_malloc(length * sizeof(float));
     src_data.src_ratio = (double)mixer_freq / samplerate;
 
     // We include some extra space here in case of rounding-up.
     src_data.output_frames = src_data.src_ratio * length + (mixer_freq / 4);
-    src_data.data_out = malloc(src_data.output_frames * sizeof(float));
+    src_data.data_out = doom_malloc(src_data.output_frames * sizeof(float));
 
     assert(src_data.data_in != NULL && src_data.data_out != NULL);
 
@@ -431,8 +431,8 @@ static boolean ExpandSoundData_SRC(sfxinfo_t *sfxinfo,
         expanded[abuf_index++] = cvtval_i;
     }
 
-    free(src_data.data_in);
-    free(src_data.data_out);
+    doom_free(src_data.data_in);
+    doom_free(src_data.data_out);
 
     if (clipped > 0)
     {

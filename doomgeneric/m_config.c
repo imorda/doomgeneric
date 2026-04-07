@@ -1734,7 +1734,7 @@ static void SetVariable(default_t *def, char *value)
     switch (def->type)
     {
         case DEFAULT_STRING:
-            * (char **) def->location = strdup(value);
+            * (char **) def->location = doom_strdup(value);
             break;
 
         case DEFAULT_INT:
@@ -2042,7 +2042,7 @@ float M_GetFloatVariable(char *name)
 
 static char *GetDefaultConfigDir(void)
 {
-    char *result = (char *)malloc(2);
+    char *result = (char *)doom_malloc(2);
     result[0] = '.';
     result[1] = '\0';
 
@@ -2096,7 +2096,7 @@ char *M_GetSaveGameDir(char *iwadname)
 
     if (!strcmp(configdir, ""))
     {
-    	savegamedir = strdup("");
+    	savegamedir = doom_strdup("");
     }
     else
     {
@@ -2113,7 +2113,7 @@ char *M_GetSaveGameDir(char *iwadname)
 
         M_MakeDirectory(savegamedir);
 
-        free(topdir);
+        doom_free(topdir);
 #else
         savegamedir = M_StringJoin(configdir, DIR_SEPARATOR_S, ".savegame/", NULL);
 

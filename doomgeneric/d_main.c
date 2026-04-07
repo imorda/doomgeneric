@@ -1121,21 +1121,21 @@ static void LoadIwadDeh(void)
         if (sep != NULL)
         {
             size_t chex_deh_len = strlen(iwadfile) + 9;
-            chex_deh = malloc(chex_deh_len);
+            chex_deh = doom_malloc(chex_deh_len);
             M_StringCopy(chex_deh, iwadfile, chex_deh_len);
             chex_deh[sep - iwadfile + 1] = '\0';
             M_StringConcat(chex_deh, "chex.deh", chex_deh_len);
         }
         else
         {
-            chex_deh = strdup("chex.deh");
+            chex_deh = doom_strdup("chex.deh");
         }
 
         // If the dehacked patch isn't found, try searching the WAD
         // search path instead.  We might find it...
         if (!M_FileExists(chex_deh))
         {
-            free(chex_deh);
+            doom_free(chex_deh);
             chex_deh = D_FindWADByName("chex.deh");
         }
 

@@ -238,13 +238,13 @@ static void ParseVorbisComments(file_metadata_t *metadata, FILE *fs)
         if (comment == NULL
          || fread(comment, 1, comment_len, fs) < comment_len)
         {
-            free(comment);
+            doom_free(comment);
             break;
         }
 
         // Parse comment string.
         ParseVorbisComment(metadata, comment);
-        free(comment);
+        doom_free(comment);
     }
 }
 
@@ -492,14 +492,14 @@ static char *GetFullPath(char *base_filename, char *path)
     // so just return it.
     if (path[0] == DIR_SEPARATOR)
     {
-        return strdup(path);
+        return doom_strdup(path);
     }
 
 #ifdef _WIN32
     // d:\path\...
     if (isalpha(path[0]) && path[1] == ':' && path[2] == DIR_SEPARATOR)
     {
-        return strdup(path);
+        return doom_strdup(path);
     }
 #endif
 
@@ -510,7 +510,7 @@ static char *GetFullPath(char *base_filename, char *path)
 
     // Copy config filename and cut off the filename to just get the
     // parent dir.
-    basedir = strdup(base_filename);
+    basedir = doom_strdup(base_filename);
     p = strrchr(basedir, DIR_SEPARATOR);
     if (p != NULL)
     {
@@ -519,10 +519,10 @@ static char *GetFullPath(char *base_filename, char *path)
     }
     else
     {
-        result = strdup(path);
+        result = doom_strdup(path);
     }
-    free(basedir);
-    free(path);
+    doom_free(basedir);
+    doom_free(path);
 
     return result;
 }
@@ -666,7 +666,7 @@ static void LoadSubstituteConfigs(void)
 
     if (!strcmp(configdir, ""))
     {
-        musicdir = strdup("");
+        musicdir = doom_strdup("");
     }
     else
     {
@@ -681,10 +681,10 @@ static void LoadSubstituteConfigs(void)
     {
         path = M_StringJoin(musicdir, subst_config_filenames[i], NULL);
         ReadSubstituteConfig(path);
-        free(path);
+        doom_free(path);
     }
 
-    free(musicdir);
+    doom_free(musicdir);
 
     if (subst_music_len > 0)
     {
@@ -799,10 +799,10 @@ static boolean WriteWrapperTimidityConfig(char *write_path)
     p = strrchr(timidity_cfg_path, DIR_SEPARATOR);
     if (p != NULL)
     {
-        path = strdup(timidity_cfg_path);
+        path = doom_strdup(timidity_cfg_path);
         path[p - timidity_cfg_path] = '\0';
         fprintf(fstream, "dir %s\n", path);
-        free(path);
+        doom_free(path);
     }
 
     fprintf(fstream, "source %s\n", timidity_cfg_path);
@@ -830,7 +830,7 @@ void I_InitTimidityConfig(void)
     }
     else
     {
-        free(temp_timidity_cfg);
+        doom_free(temp_timidity_cfg);
         temp_timidity_cfg = NULL;
     }
 }
@@ -842,7 +842,7 @@ static void RemoveTimidityConfig(void)
     if (temp_timidity_cfg != NULL)
     {
         remove(temp_timidity_cfg);
-        free(temp_timidity_cfg);
+        doom_free(temp_timidity_cfg);
     }
 }
 
@@ -1205,7 +1205,7 @@ static void *I_SDL_RegisterSong(void *data, int len)
         remove(filename);
     }
 
-    free(filename);
+    doom_free(filename);
 
     return music;
 }

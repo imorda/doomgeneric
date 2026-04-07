@@ -285,7 +285,7 @@ char *M_StrCaseStr(char *haystack, char *needle)
 }
 
 //
-// Safe version of strdup() that checks the string was successfully
+// Safe version of doom_strdup() that checks the string was successfully
 // allocated.
 //
 
@@ -293,7 +293,7 @@ char *M_StringDuplicate(const char *orig)
 {
     char *result;
 
-    result = strdup(orig);
+    result = doom_strdup(orig);
 
     if (result == NULL)
     {
@@ -335,7 +335,7 @@ char *M_StringReplace(const char *haystack, const char *needle,
 
     // Construct new string.
 
-    result = malloc(result_len);
+    result = doom_malloc(result_len);
     if (result == NULL)
     {
         I_Error("M_StringReplace: Failed to allocate new string");
@@ -445,7 +445,7 @@ char *M_StringJoin(const char *s, ...)
     }
     va_end(args);
 
-    result = malloc(result_len);
+    result = doom_malloc(result_len);
 
     if (result == NULL)
     {
@@ -523,11 +523,11 @@ char *M_OEMToUTF8(const char *oem)
     wchar_t *tmp;
     char *result;
 
-    tmp = malloc(len * sizeof(wchar_t));
+    tmp = doom_malloc(len * sizeof(wchar_t));
     MultiByteToWideChar(CP_OEMCP, 0, oem, len, tmp, len);
-    result = malloc(len * 4);
+    result = doom_malloc(len * 4);
     WideCharToMultiByte(CP_UTF8, 0, tmp, len, result, len * 4, NULL, NULL);
-    free(tmp);
+    doom_free(tmp);
 
     return result;
 }

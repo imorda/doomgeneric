@@ -101,5 +101,9 @@ typedef uint8_t byte;
 
 #define arrlen(array) (sizeof(array) / sizeof(*array))
 
+extern void doom_free(void * ptr);
+extern void* doom_malloc(size_t size);
+extern char* doom_strdup (const char *);
+
 #endif
 

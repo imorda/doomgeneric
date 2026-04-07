@@ -183,7 +183,8 @@ void cmap_to_fb(uint8_t *out, uint8_t *in, int in_pixels)
             // Assuming RGBA8888
             pix = (c.r << s_Fb.red.offset) |
                   (c.g << s_Fb.green.offset) |
-                  (c.b << s_Fb.blue.offset);
+                  (c.b << s_Fb.blue.offset) |
+                  (255 << s_Fb.transp.offset);
 
 #ifdef SYS_BIG_ENDIAN
             pix = swapLE32(pix);
@@ -339,6 +340,7 @@ void I_FinishUpdate (void)
 
     y = SCREENHEIGHT;
 
+    line_out += y_offset * s_Fb.xres;
     while (y--)
     {
         int i;
