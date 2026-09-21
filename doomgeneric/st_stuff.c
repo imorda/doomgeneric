@@ -347,6 +347,11 @@ static st_binicon_t	w_armsbg;
 // weapon ownership widgets
 static st_multicon_t	w_arms[6];
 
+// weaponowned[] is an array of one-byte booleans, so it cannot be handed to
+// STlib_initMultIcon() as an int *: one arms widget would read four weapons at
+// once. Mirror the flags into ints instead.
+static int		st_armsowned[6];
+
 // face status widget
 static st_multicon_t	w_faces; 
 
@@ -1005,6 +1010,9 @@ void ST_drawWidgets(boolean refresh)
     // used by w_arms[] widgets
     st_armson = st_statusbaron && !deathmatch;
 
+    for (i=0;i<6;i++)
+	st_armsowned[i] = plyr->weaponowned[i+1] ? 1 : 0;
+
     // used by w_frags widget
     st_fragson = deathmatch && st_statusbaron; 
 
@@ -1264,7 +1272,7 @@ void ST_createWidgets(void)
 	STlib_initMultIcon(&w_arms[i],
 			   ST_ARMSX+(i%3)*ST_ARMSXSPACE,
 			   ST_ARMSY+(i/3)*ST_ARMSYSPACE,
-			   arms[i], (int *) &plyr->weaponowned[i+1],
+			   arms[i], &st_armsowned[i],
 			   &st_armson);
     }
 
